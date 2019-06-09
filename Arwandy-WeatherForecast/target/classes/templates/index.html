@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Weather Forecast Application</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
+  <script th:src="@{/js/jquery.min.js}"></script>
+  <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+  <script type="text/javascript" th:src="@{/js/script.js}"></script>
+  <style>
+    /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+    .row.content {height: 550px}
+    
+    /* Set gray background color and 100% height */
+    .sidenav {
+      background-color: #f1f1f1;
+      height: 100%;
+    }
+        
+    /* On small screens, set height to 'auto' for the grid */
+    @media screen and (max-width: 767px) {
+      .row.content {height: auto;} 
+    }
+    
+    #history-section{
+    	background-color: yellow;
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-inverse visible-xs">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="#">Weather Forecast</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li id="menu_allweather_collapse"><a href="/getallweather?loc=all">All Weather</a></li>
+        <li id="menu_campbellWeather_collapse"><a href="/getallweather?loc=campbell">Campbell</a></li>
+        <li id="menu_omahaWeather_collapse"><a href="/getallweather?loc=omaha">Omaha</a></li>
+        <li id="menu_austinWeather_collapse"><a href="/getallweather?loc=austin">Austin</a></li>
+        <li id="menu_nisekoWeather_collapse"><a href="/getallweather?loc=niseko">Niseko</a></li>
+        <li id="menu_naraWeather_collapse"><a href="/getallweather?loc=nara">Nara</a></li>
+        <li id="menu_jakartaWeather_collapse"><a href="/getallweather?loc=jakarta">Jakarta</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container-fluid">
+  <div class="row content">
+    <div class="col-sm-3 sidenav hidden-xs">
+      <h2>Weather Forecast</h2>
+      <ul class="nav nav-pills nav-stacked">
+        <li id="menu_allweather"><a href="/getallweather?loc=all">All Weather</a></li>
+        <li id="menu_campbellWeather"><a href="/getallweather?loc=campbell">Campbell</a></li>
+        <li id="menu_omahaWeather"><a href="/getallweather?loc=omaha">Omaha</a></li>
+        <li id="menu_austinWeather"><a href="/getallweather?loc=austin">Austin</a></li>
+        <li id="menu_nisekoWeather"><a href="/getallweather?loc=niseko">Niseko</a></li>
+        <li id="menu_naraWeather"><a href="/getallweather?loc=nara">Nara</a></li>
+        <li id="menu_jakartaWeather"><a href="/getallweather?loc=jakarta">Jakarta</a></li>
+      </ul><br>
+    </div>
+    <br>
+    
+   <div class="col-sm-4" id="landingpage-information">
+     <div class="well">
+         <h4>Welcome To Weather Forecast Application</h4>
+         <p>Please Choose Location To Display Weather Information</p>
+     </div>
+   </div>
+    
+    <div class="col-sm-9" id="weatherpage-information">   
+          <div class="well">
+        <h4>Today's Weather</h4>
+        	<div class="table-responsive">
+				<table class="table">
+				<thead>
+					<tr>
+						<th>Country</th>
+						<th>Date</th>
+						<th>Summary</th>
+						<th>Temperature Min (°C)</th>
+						<th>Temperature Max (°C)</th>
+						<th>Humidity</th>
+						<th>Wind Speed (Meters per second)</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="nodeInfo,rowStat : ${weatherTodayObjs}">
+						<td th:text="${nodeInfo.countryName}"></td>
+						<td th:text="${#dates.format(nodeInfo.weatherDate,'dd MMM yyyy')}"></td>
+						<td th:text="${nodeInfo.summary}"></td>
+						<td th:text="${nodeInfo.tempMin}"></td>
+						<td th:text="${nodeInfo.tempMax}"></td>
+						<td th:text="${nodeInfo.humidity}"></td>
+						<td th:text="${nodeInfo.windSpeed}"></td>
+						
+					</tr>
+				</tbody>
+				</table>
+			</div>
+      </div>
+    
+      <div class="well" id="history-section">
+      <h4>Weather History</h4>
+        	<div class="table-responsive">
+				<table class="table">
+				<thead>
+					<tr>
+						<th>Country</th>
+						<th>Date</th>
+						<th>Summary</th>
+						<th>Temperature Min (°C)</th>
+						<th>Temperature Max (°C)</th>
+						<th>Humidity</th>
+						<th>Wind Speed (Meters per second)</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="nodeInfo : ${weatherObjs}">
+						<td th:text="${nodeInfo.countryName}"></td>
+						<td th:text="${#dates.format(nodeInfo.weatherDate,'dd MMM yyyy')}"></td>
+						<td th:text="${nodeInfo.summary}"></td>
+						<td th:text="${nodeInfo.tempMin}"></td>
+						<td th:text="${nodeInfo.tempMax}"></td>
+						<td th:text="${nodeInfo.humidity}"></td>
+						<td th:text="${nodeInfo.windSpeed}"></td>						
+					</tr>
+				</tbody>
+				</table>
+			</div>
+      </div>     
+</div>
+
+</body>
+</html>
